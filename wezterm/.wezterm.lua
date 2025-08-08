@@ -8,7 +8,7 @@ return {
 
   -- 主題顏色 "Catppuccin Macchiato"
   color_scheme = 'Dracula',
-  
+
   -- 模糊效果
   -- blur_behind_tab_bar = true,
   -- blur_behind_split_panes = true,
@@ -36,10 +36,10 @@ return {
   --     opacity = 0.4,
   --   }
   -- },
-  
+
   -- 窗口設置
   window_background_opacity = 0.85, -- 透明度
-  
+
   -- 分頁欄放置在底部
   tab_bar_at_bottom = true,
 
@@ -49,7 +49,7 @@ return {
   -- 隱藏分頁欄位, 除非有多個分頁
   enable_tab_bar = true,
 
-  
+
   -- ================
   -- SSH 連線設定
   -- ================
@@ -63,9 +63,9 @@ return {
   },
 
 
-  
+
   -- ================
-  -- 視窗分割  
+  -- 視窗分割
   -- ================
   keys = {
     -- 視窗分割
@@ -82,14 +82,14 @@ return {
     { key = 'l', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection('Right') },
     { key = 'k', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection('Up') },
     { key = 'j', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection('Down') },
- 
+
     -- 分頁切換
     { key = 'Tab', mods = 'CTRL', action = wezterm.action.ActivateTabRelative(1) },
     { key = 'Tab', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateTabRelative(-1) },
-    
+
     -- 關閉分頁
     { key = 'w', mods = 'LEADER', action = wezterm.action.CloseCurrentTab { confirm = true } },
-    
+
     -- 建立新分頁
     { key = 't', mods = 'LEADER', action = wezterm.action.SpawnTab('CurrentPaneDomain') },
 
@@ -112,23 +112,26 @@ return {
 
   -- 啟動時自動最大化視窗
   -- enable_kitty_graphics = true,
-  
+
   -- 啟用滑鼠滾動
   enable_scroll_bar = true,
-  
+
   -- =======================================================================================
   -- 其他進階設定
   -- =======================================================================================
-  
+
   -- 啟動時執行的指令
   -- 可以設定啟動時自動切換到特定的 shell
-  default_prog = { 'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'},
-  
+  -- Windows system
+  -- default_prog = { 'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'},
+  -- Mac system or Linux system
+  default_prog = { '/opt/homebrew/bin/fish', -l }
+
   -- 跨平台鍵盤設置
   use_ime = true, -- 啟用輸入法支援(適合中文輸入)
   hide_tab_bar_if_only_one_tab = true, -- 單一分頁時隱藏分頁欄位
-  
-  
+
+
     -- 視窗邊界調整
   -- window_padding = {
   --   left = 0,
