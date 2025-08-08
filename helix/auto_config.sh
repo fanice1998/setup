@@ -51,10 +51,10 @@ check_command rustup "參考 Rust 官方網站安裝：https://www.rust-lang.org
 check_command cargo "通常隨 rustup 一起安裝"
 check_command go "參考 Go 官方網站安裝：https://golang.org/doc/install"
 check_command npm "參考 Node.js 官方網站安裝：https://nodejs.org/"
-check_command node "參考 Node.js 官方網站安裝：https://nodejs.org/" # 新增對 node 的檢查
+check_command node "參考 Node.js 官方網站安裝：https://nodejs.org/"
 check_command pip "通常隨 Python 一起安裝"
-check_command curl "參考 https://curl.se/ 下載" # 檢查 curl
-check_command wget "參考 https://www.gnu.org/software/wget/ 下載" # 檢查 wget
+check_command curl "參考 https://curl.se/ 下載"
+check_command wget "參考 https://www.gnu.org/software/wget/ 下載"
 
 # 針對 npm 和 pip 檢查 sudo 權限下的 PATH 問題
 check_sudo_path() {
@@ -62,7 +62,6 @@ check_sudo_path() {
     local test_cmd="$2"
     echo "-> 檢查 '$cmd' 在 sudo 權限下是否可用..."
     if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
-        # 嘗試以非互動方式執行 sudo 命令，檢查其是否在 sudo 的 PATH 中
         if ! sudo -n "$test_cmd" &> /dev/null; then
             echo "警告: 'sudo $cmd' 似乎無法找到 '$cmd' 指令。"
             echo "這通常是因為 sudo 的 PATH 環境變數不包含 npm/pip 的安裝路徑。"
@@ -76,30 +75,26 @@ check_sudo_path() {
 }
 
 check_sudo_path npm "npm -v"
-check_sudo_path node "node -v" # 檢查 sudo 環境下的 node
-check_sudo_path pip "pip -V" # pip -V 比 pip install 更不具侵入性
+check_sudo_path node "node -v"
+check_sudo_path pip "pip -V"
 
 echo "開始安裝 LSP 和相關工具..."
 
 # 安裝 Rust 工具
-# clippy (Linter)
 echo "-> 安裝 Rust linter: clippy..."
 rustup component add clippy
 echo "-> Rust linter: clippy 安裝成功！"
 
 # 安裝 Go LSP
-# gopls
 echo "-> 安裝 Go LSP: gopls..."
 go install golang.org/x/tools/gopls@latest
 echo "-> Go LSP: gopls 安裝成功！"
 
 # 安裝 Python LSP
-# pyright (推薦，透過 npm 安裝)
 echo "-> 安裝 Python LSP: pyright..."
 if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
-    # 嘗試使用 which 找到 npm 的實際路徑，以防 sudo PATH 問題
     NPM_PATH=$(which npm)
-    NODE_PATH=$(which node) # 獲取 node 的路徑
+    NODE_PATH=$(which node)
 
     if [[ -z "$NPM_PATH" ]]; then
         echo "錯誤: 無法找到 npm 的路徑，請檢查您的 PATH 環境變數。"
@@ -116,7 +111,6 @@ if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
         echo "-> Python LSP: pyright 安裝成功！(無需 sudo)"
     else
         echo "嘗試以當前用戶權限安裝 pyright 失敗，嘗試使用 sudo..."
-        # 當使用 sudo 時，明確設定 PATH 以包含 node 的目錄
         sudo env PATH="$PATH:$(dirname "$NODE_PATH")" "$NPM_PATH" install -g pyright
         if [ $? -eq 0 ]; then
             echo "-> Python LSP: pyright 安裝成功！(已使用 sudo)"
@@ -125,12 +119,12 @@ if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
             exit 1
         fi
     fi
-elif [[ "$OSTYPE" == "msys" ]]; then # Windows (Git Bash)
+elif [[ "$OSTYPE" == "msys" ]]; then
     npm install -g pyright
     echo "-> Python LSP: pyright 安裝成功！"
 fi
 
-# 安裝 JavaScript/HTML/CSS LSP (透過 npm 安裝)
+# 安裝 JavaScript/HTML/CSS LSP
 echo "-> 安裝 JavaScript/HTML/CSS LSP..."
 if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
     NPM_PATH=$(which npm)
@@ -159,7 +153,7 @@ if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
             exit 1
         fi
     fi
-elif [[ "$OSTYPE" == "msys" ]]; then # Windows (Git Bash)
+elif [[ "$OSTYPE" == "msys" ]]; then
     npm install -g typescript-language-server
     npm install -g vscode-html-languageserver-bin
     npm install -g vscode-css-languageserver-bin
@@ -173,8 +167,8 @@ echo "正在自動建立 Helix 配置檔案..."
 HELIX_CONFIG_DIR=""
 if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
     HELIX_CONFIG_DIR="$HOME/.config/helix"
-elif [[ "$OSTYPE" == "msys" ]]; then # Windows (Git Bash)
-    HELIX_CONFIG_DIR="$APPDATA/helix" # %APPDATA% 在 Git Bash 中通常映射為 $APPDATA
+elif [[ "$OSTYPE" == "msys" ]]; then
+    HELIX_CONFIG_DIR="$APPDATA/helix"
 fi
 
 mkdir -p "$HELIX_CONFIG_DIR"
@@ -187,5 +181,27 @@ download_file "$CONFIG_TOML_URL" "$HELIX_CONFIG_DIR/config.toml"
 LANGUAGES_TOML_URL="https://raw.githubusercontent.com/fanice1998/setup/main/helix/languages.toml"
 download_file "$LANGUAGES_TOML_URL" "$HELIX_CONFIG_DIR/languages.toml"
 
-echo "所有 LSP 已安裝完成，且 Helix 配置檔案已自動建立！"
-echo "您現在可以啟動 Helix 編輯器來體驗這些功能。"
+# 創建 themes 目錄並下載 transparent.toml
+echo "-> 創建 Helix themes 目錄並下載 transparent.toml..."
+mkdir -p "$HELIX_CONFIG_DIR/themes"
+THEME_TOML_URL="https://raw.githubusercontent.com/fanice1998/setup/main/helix/themes/transparent.toml"
+download_file "$THEME_TOML_URL" "$HELIX_CONFIG_DIR/themes/transparent.toml"
+
+# 更新 config.toml 以使用 transparent 主題
+echo "-> 更新 config.toml 以使用 transparent 主題..."
+if [[ -f "$HELIX_CONFIG_DIR/config.toml" ]]; then
+    # 檢查是否已有 theme 設置
+    if grep -q '^theme = ' "$HELIX_CONFIG_DIR/config.toml"; then
+        # 使用 sed 替換現有的 theme 設置
+        sed -i'' -e 's/^theme = .*/theme = "transparent"/' "$HELIX_CONFIG_DIR/config.toml"
+    else
+        # 如果沒有 theme 設置，追加一行
+        echo 'theme = "transparent"' >> "$HELIX_CONFIG_DIR/config.toml"
+    fi
+else
+    echo 'theme = "transparent"' > "$HELIX_CONFIG_DIR/config.toml"
+fi
+
+echo "所有 LSP 已安裝完成，且 Helix 配置檔案與 transparent 主題已自動建立！"
+echo "您現在可以啟動 Helix 編輯器來體驗透明背景與其他功能。"
+echo "請確保您的終端（如 iTerm2）已啟用透明背景（Preferences > Profiles > Window > Transparency）。"
