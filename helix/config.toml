@@ -5,7 +5,13 @@
 # PATH="~/.config/helix/config.toml"
 # 預設主題類型
 # "gruvbox_dark", "gruvbox_light", "solarized_dark", "gruvbox"
-theme = "gruvbox"
+theme = "transparent"
+# [theme]
+# inherits = "gruvbox"                    # 繼承現有主題
+# "ui.background" = {bg = "none"}         # 設置背景透明
+# "ui.text" = {fg = "white", bg = "none"} # 文字背景
+# "ui.selection" = { bg = "none" }        # 選中區域背景透明
+# "ui.cursor" = { fg = "white", bg = "gray", modifiers = ["reversed"] }                                       # 光標可見
 
 [editor]
 # 設定行號顯示
