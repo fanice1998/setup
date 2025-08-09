@@ -10,9 +10,7 @@ return {
   color_scheme = 'Dracula',
 
   -- 模糊效果
-  -- blur_behind_tab_bar = true,
-  -- blur_behind_split_panes = true,
-  -- blur_behind_windows = true,
+
 
   -- 隱藏視窗標題列
   -- window_decorations = "NONE",
@@ -23,25 +21,46 @@ return {
   -- ================
 
   -- 背景圖片
-  -- background = {
+  background = {
   --   {
   --     source = {
-  --       圖片路徑(建議使用絕對路徑)
-  --       File = 'D:\\Felix\\img\\background.png',
+  -- --       圖片路徑(建議使用絕對路徑)
+  --       File = 'D:\\Felix\\img\\nightCatAndRain.jpg',
   --     },
-  --     圖片縮放模式
+  -- --     圖片縮放模式
   --     resize = "NoScale",
 
-  --     圖片背景透明度
+  -- --     圖片背景透明度
   --     opacity = 0.4,
-  --   }
-  -- },
+  --   },
+  -- Terminal 背景顏色, 可以跟圖片一起混搭
+    {
+      source = { Color = 'rgba(30,30,30,0.7)'},
+      height = '100%',
+      width = '100%',
+    }
+  },
 
   -- 窗口設置
-  window_background_opacity = 0.85, -- 透明度
+  -- window_background_opacity = 0.65, -- 透明度
+  -- win32_system_backdrop = 'Acrylic', -- Windows 專屬
 
   -- 分頁欄放置在底部
   tab_bar_at_bottom = true,
+  colors = {
+    -- selection_bg = '#FFFFFF', -- Select block background color
+    -- selection_fg = '#FFFFFF', -- Select block font color
+    tab_bar = {
+      active_tab = {
+        bg_color = '#2E2E2E',
+        fg_color = '#FFFFFF',
+      },
+      inavtive_tab = {
+        bg_color = '#1E1E1E',
+        fg_color = '#B0B0B0',
+      },
+    },
+  },
 
   -- 增強型分頁(支援圖標)
   use_fancy_tab_bar = true,
@@ -114,7 +133,7 @@ return {
   -- enable_kitty_graphics = true,
 
   -- 啟用滑鼠滾動
-  enable_scroll_bar = true,
+  -- enable_scroll_bar = true,
 
   -- =======================================================================================
   -- 其他進階設定
@@ -123,16 +142,16 @@ return {
   -- 啟動時執行的指令
   -- 可以設定啟動時自動切換到特定的 shell
   -- Windows system
-  -- default_prog = { 'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'},
+  default_prog = { 'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'},
   -- Mac system or Linux system
-  default_prog = { '/opt/homebrew/bin/fish', -l },
+  -- default_prog = { '/opt/homebrew/bin/fish', -l },
 
   -- 跨平台鍵盤設置
   use_ime = true, -- 啟用輸入法支援(適合中文輸入)
   hide_tab_bar_if_only_one_tab = true, -- 單一分頁時隱藏分頁欄位
 
 
-    -- 視窗邊界調整
+  -- 視窗邊界調整
   -- window_padding = {
   --   left = 0,
   --   right = 0,
