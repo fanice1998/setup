@@ -125,7 +125,7 @@ return {
   -- Windows system
   -- default_prog = { 'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'},
   -- Mac system or Linux system
-  default_prog = { '/opt/homebrew/bin/fish', -l }
+  default_prog = { '/opt/homebrew/bin/fish', -l },
 
   -- 跨平台鍵盤設置
   use_ime = true, -- 啟用輸入法支援(適合中文輸入)
