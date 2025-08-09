@@ -55,7 +55,7 @@ return {
         bg_color = '#2E2E2E',
         fg_color = '#FFFFFF',
       },
-      inavtive_tab = {
+      inactive_tab = {
         bg_color = '#1E1E1E',
         fg_color = '#B0B0B0',
       },
