@@ -7,7 +7,8 @@ return {
   -- ================
 
   -- 主題顏色 "Catppuccin Macchiato"
-  color_scheme = 'Dracula',
+  -- color_scheme = 'Dracula',
+  color_scheme = 'Nord',
 
   -- 模糊效果
 
@@ -21,28 +22,29 @@ return {
   -- ================
 
   -- 背景圖片
-  background = {
-  --   {
-  --     source = {
-  -- --       圖片路徑(建議使用絕對路徑)
-  --       File = 'D:\\Felix\\img\\nightCatAndRain.jpg',
-  --     },
-  -- --     圖片縮放模式
-  --     resize = "NoScale",
+  -- background = {
+  -- --   {
+  -- --     source = {
+  -- -- --       圖片路徑(建議使用絕對路徑)
+  -- --       File = 'D:\\Felix\\img\\nightCatAndRain.jpg',
+  -- --     },
+  -- -- --     圖片縮放模式
+  -- --     resize = "NoScale",
 
-  -- --     圖片背景透明度
-  --     opacity = 0.4,
-  --   },
-  -- Terminal 背景顏色, 可以跟圖片一起混搭
-    {
-      source = { Color = 'rgba(30,30,30,0.7)'},
-      height = '100%',
-      width = '100%',
-    }
-  },
+  -- -- --     圖片背景透明度
+  -- --     opacity = 0.4,
+  -- --   },
+  -- -- Terminal 背景顏色, 可以跟圖片一起混搭
+  --   {
+  --     source = { Color = 'rgba(30,30,30,0.7)'},
+  --     height = '100%',
+  --     width = '100%',
+  --   }
+  -- },
 
   -- 窗口設置
-  -- window_background_opacity = 0.65, -- 透明度
+  window_background_opacity = 0.65, -- 透明度
+  -- macos_window_background_blur = 100, -- 模糊效果(macOS system)
   -- win32_system_backdrop = 'Acrylic', -- Windows 專屬
 
   -- 分頁欄放置在底部
