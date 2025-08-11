@@ -1,3 +1,4 @@
+
 # ==================================
 #            Config.toml
 # ==================================
@@ -18,11 +19,11 @@ auto-completion = true           # 啟用自動完成的自動彈出功能(到�
 auto-format = true               # 儲存時自動格式化
 auto-info = true                 # 是否顯示資訊框
 bufferline = "multiple"          # ("always", "never", "multiple")當使用多個緩衝區時, 會在頂部顯示開啟的緩衝區名稱
-default-line-ending = "lf"       # "native", "lf", "crlf", "ff", "cr", "nel"
-auto-save = true                 #自動儲存
 # 需要 25.07 才開始支援
+default-line-ending = "lf"       # "native", "lf", "crlf", "ff", "cr", "nel"
 trim-trailing-whitespace = true  # 寫入時是否自動刪除行尾前的空格
 end-of-line-diagnostics = "hint" # 行尾診斷
+auto-save = true                 #自動儲存
 path-completion = true           # 檔案路徑自動補全(絕對路徑, 相對路徑)
 
 [editor.statusline]
@@ -34,7 +35,7 @@ right = ["diagnostics", "selections", "position", "register", "file-encoding", "
 # render: "all"(顯示), "none"(不顯示)
 render.space = "all"     # 空格
 render.tab = "all"       # TAB
-render.newline = "none"  # 換行 \n
+render.newline = "none"   # 換行 \n
 
 characters = { space = "·", tab = "→", newline = "⏎"}
 
@@ -53,7 +54,7 @@ normal = "block"
 insert = "bar"
 select = "underline"
 
-# [editor.inline-diagnostics]
+[editor.inline-diagnostics]
 # "disable", "hint", "info", "warning", "error"
-# cursor-line = "error"
-# other-lines = "warning"
+cursor-line = "error"
+other-lines = "warning"
