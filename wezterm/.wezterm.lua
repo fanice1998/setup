@@ -1,20 +1,51 @@
 local wezterm = require('wezterm')
 local mux = wezterm.mux
 
+local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
+local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
+
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+  local background = '#5c6d74'
+  local foreground = '#FFFFFF'
+  local edge_background = 'none'
+  if tab.is_active then
+    background = '#8DD94A'
+    foreground = '#FFFFFF'
+  end
+  local edge_foreground = background
+  local title = "  " .. wezterm.truncate_right(tab.active_pane.title, max_width -1) .. "  "
+  return {
+    { Background = { Color = edge_background } },
+    { Foreground = { Color = edge_foreground } },
+    { Text = SOLID_LEFT_ARROW },
+    { Background = { Color = background } },
+    { Foreground = { Color = foreground } },
+    { Text = title },
+    { Background = { Color = edge_background } },
+    { Foreground = { Color = edge_foreground } },
+    { Text = SOLID_RIGHT_ARROW },
+  }
+end)
+
 return {
+  -- ================
+  -- Basic Set
+  -- ================
+  automatically_reload_config = true,
+
   -- ================
   -- 外觀設定
   -- ================
 
   -- 主題顏色 "Catppuccin Macchiato"
   -- color_scheme = 'Dracula',
-  color_scheme = 'Nord',
+  color_scheme = 'Tokyo Night',
 
   -- 模糊效果
 
 
   -- 隱藏視窗標題列
-  -- window_decorations = "NONE",
+  window_decorations = "RESIZE", -- "NONE", "RESIZE"
 
 
   -- ================
@@ -66,10 +97,25 @@ return {
 
   -- 增強型分頁(支援圖標)
   use_fancy_tab_bar = true,
-
   -- 隱藏分頁欄位, 除非有多個分頁
   enable_tab_bar = true,
+  -- 單一分頁時隱藏分頁欄位
+  hide_tab_bar_if_only_one_tab = true,
 
+  -- tab_bar opacity
+  window_frame = {
+    inactive_titlebar_bg = "none",
+    active_titlebar_bg = 'none',
+  },
+  --這是什麼我不知道,但挺漂亮的
+  window_background_gradient = {
+    colors = { "#000000" },
+  },
+  -- 隱藏 tab_bar 建立新分頁按鈕
+  show_new_tab_button_in_tab_bar = false,
+  -- Nightly Builds Only
+  -- 隱藏 tab_option 關閉按鈕
+  -- show_close_tab_button_in_tabs = false,
 
   -- ================
   -- SSH 連線設定
@@ -144,13 +190,12 @@ return {
   -- 啟動時執行的指令
   -- 可以設定啟動時自動切換到特定的 shell
   -- Windows system
-  default_prog = { 'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'},
+  -- default_prog = { 'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'},
   -- Mac system or Linux system
-  -- default_prog = { '/opt/homebrew/bin/fish', -l },
+  default_prog = { '/opt/homebrew/bin/fish' },
 
   -- 跨平台鍵盤設置
   use_ime = true, -- 啟用輸入法支援(適合中文輸入)
-  hide_tab_bar_if_only_one_tab = true, -- 單一分頁時隱藏分頁欄位
 
 
   -- 視窗邊界調整
