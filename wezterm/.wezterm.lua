@@ -4,6 +4,9 @@ local mux = wezterm.mux
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
 
+-- log level
+wezterm.log_level = 'debug'
+
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
   local background = '#5c6d74'
   local foreground = '#FFFFFF'
@@ -74,7 +77,7 @@ return {
   -- },
 
   -- 窗口設置
-  window_background_opacity = 0.65, -- 透明度
+  window_background_opacity = 0.8, -- 透明度
   -- macos_window_background_blur = 100, -- 模糊效果(macOS system)
   -- win32_system_backdrop = 'Acrylic', -- Windows 專屬
 
@@ -189,10 +192,34 @@ return {
 
   -- 啟動時執行的指令
   -- 可以設定啟動時自動切換到特定的 shell
-  -- Windows system
+  -- ===Windows system===
+  -- # fish shell
   -- default_prog = { 'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'},
+  -- # Starship
+  -- 在 PowerShell 設定檔中添加 `Invoke-Expression (&starship init powershell)`
+  -- PowerShell 設定檔位置. "\\192.168.10.4\Domain_User\felixhuang\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+  -- 如果因為執行原則發生無法執行 ps1 檔案
+  -- 檢查當前執行原則(以下指令皆在 PowerShell 中使用)
+  -- command: `Get-ExecutionPolicy`,若輸出為Restricted則需要更改執行原則
+  -- 執行原則更改為RemoteSigned(需要管理員權限)
+  -- `-Scope CurrentUser`(修改範圍，當前使用者)
+  -- `-Force`(避免提示確認)
+  -- command: `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force`
+  -- ### 如果是在遠端不是在本地則需要執行這步
+  -- 生成自簽憑證
+  -- `New-SelfSignedCertificate -Subject "CN=PowerShell Profile Signing" -Type CodeSigningCert -CertStoreLocation Cert:\CurrentUser\My`
+  -- 簽署$PROFILE檔案
+  -- * 獲取剛生成的憑證
+  --   `$cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Subject -eq "CN=PowerShell Profile Signing" }`
+  -- * 簽署檔案
+  --   `Set-AuthenticodeSignature -FilePath "\\192.168.10.4\Domain_User\felixhuang\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -Certificate $cert`
+  -- * 憑證匯入到"受信任的根憑證頒發機構"
+  --   `Export-Certificate -Cert $cert -FilePath "C:\Users\felixhuang\profile_signing.cer"Import-Certificate -FilePath "C:\Users\felixhuang\profile_signing.cer" -CertStoreLocation Cert:\CurrentUser\Root`
+  -- * 測試
+  --   `. $PROFILE`
+  default_prog = { 'powershell', '-NoLogo'},
   -- Mac system or Linux system
-  default_prog = { '/opt/homebrew/bin/fish' },
+  -- default_prog = { '/opt/homebrew/bin/fish' },
 
   -- 跨平台鍵盤設置
   use_ime = true, -- 啟用輸入法支援(適合中文輸入)
