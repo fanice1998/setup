@@ -18,7 +18,7 @@ auto-completion = true           # 啟用自動完成的自動彈出功能(到�
 auto-format = true               # 儲存時自動格式化
 auto-info = true                 # 是否顯示資訊框
 bufferline = "multiple"          # ("always", "never", "multiple")當使用多個緩衝區時, 會在頂部顯示開啟的緩衝區名稱
-# 需要 25.07 才開始支援
+# 需要 25.07.01 才開始支援
 default-line-ending = "lf"       # "native", "lf", "crlf", "ff", "cr", "nel"
 trim-trailing-whitespace = true  # 寫入時是否自動刪除行尾前的空格
 end-of-line-diagnostics = "hint" # 行尾診斷
@@ -53,6 +53,7 @@ normal = "block"
 insert = "bar"
 select = "underline"
 
+# 25.07.1 support
 [editor.inline-diagnostics]
 # "disable", "hint", "info", "warning", "error"
 cursor-line = "error"
