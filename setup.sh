@@ -141,15 +141,26 @@ for tool in "${tools[@]}"; do
                 else
                     [[ "$tool" == "hx" ]] && pkg="helix" || pkg="$tool"
                     if [[ "$pkg" == "helix" ]]; then
-                        sudo add-apt-repository ppa:maveonair/helix-editor -y || {
-                            print "$RED" "添加 helix PPA 失敗，請檢查網路或權限"
+                        print "$YELLOW" "正在 Ubuntu 上安裝 Helix..."
+                        sudo add-apt-repository -y ppa:maveonair/helix-editor || {
+                            print "$RED" "添加 Helix PPA 失敗，請檢查網路或權限"
+                            exit 1
+                        }
+                        sudo apt update && sudo apt install -y helix || {
+                            print "$RED" "apt 安裝 Helix 失敗，請檢查管理員權限或網路"
+                            exit 1
+                        }
+                        # 檢查 Helix 版本
+                        if command -v hx >/dev/null 2>&1; then
+                            helix_version=$(hx --version | head -n 1)
+                            print "$GREEN" "Helix 已安裝，版本：$helix_version"
+                        fi
+                    else
+                        sudo apt update && sudo apt install -y "$pkg" || {
+                            print "$RED" "apt 安裝 $tool 失敗，請檢查管理員權限或網路"
                             exit 1
                         }
                     fi
-                    sudo apt update && sudo apt install -y "$pkg" || {
-                        print "$RED" "apt 安裝 $tool 失敗，請檢查管理員權限或網路"
-                        exit 1
-                    }
                 fi
             fi
         else
