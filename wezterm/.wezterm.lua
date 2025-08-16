@@ -1,12 +1,11 @@
 local wezterm = require('wezterm')
 local mux = wezterm.mux
+local config = wezterm.config_builder()
 
+
+-- Tab bar 標籤樣式更改
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
-
--- log level
-wezterm.log_level = 'debug'
-
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
   local background = '#5c6d74'
   local foreground = '#FFFFFF'
@@ -29,115 +28,93 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     { Text = SOLID_RIGHT_ARROW },
   }
 end)
+-- ==================
+-- Basic Set
+-- ==================
+config.automatically_reload_config = true
 
-return {
-  -- ================
-  -- Basic Set
-  -- ================
-  automatically_reload_config = true,
+-- ==================
+-- Style set
+-- ==================
+-- color_scheme = 'Dracula'
+config.color_scheme = 'Tokyo Night'
+-- 隱藏視窗標題
+config.window_decorations = 'RESIZE'  --"NONE", "RESIZE"
 
-  -- ================
-  -- 外觀設定
-  -- ================
+-- ==================
+-- Tab and window
+-- ==================
+-- 背景設置
+-- config.background = {
+--   {
+--     source = {
+--       -- 圖片路徑(建議使用絕對路徑)
+--       File = '$HOME\\img\\background',
+--     },
+--     resize = "NoScale",  -- 圖片縮放樣式
+--     opacity = 0.4,  -- 圖片背景透明度
+--   },
+--   -- 終端背景顏色, 可以跟圖片一起混搭
+--   {
+--     source = { Color = 'rgba(30, 30, 30, 0.7)'},
+--     height = '100%',
+--     width = '100%',
+--   }
+-- }
 
-  -- 主題顏色 "Catppuccin Macchiato"
-  -- color_scheme = 'Dracula',
-  color_scheme = 'Tokyo Night',
+config.window_background_opacity = 0.9  -- 透明度
+-- config.macos_window_background_blur = 100  -- 模糊效果(macOS system)-- 圖片縮放樣式
+-- config.win32_system_backdrop = 'Acrylic'  -- Windows system
 
-  -- 模糊效果
+-- 分割視窗邊框顏色
+config.window_frame = {
+  active_titlebar_bg = 'none',
+  inactive_titlebar_bg = 'none',
+}
+
+-- 視窗背景顏色
+config.window_background_gradient = {
+  colors = {"#050505"},
+}
 
 
-  -- 隱藏視窗標題列
-  window_decorations = "RESIZE", -- "NONE", "RESIZE"
-
-
-  -- ================
-  -- 分頁與視窗管理
-  -- ================
-
-  -- 背景圖片
-  -- background = {
-  -- --   {
-  -- --     source = {
-  -- -- --       圖片路徑(建議使用絕對路徑)
-  -- --       File = 'D:\\Felix\\img\\nightCatAndRain.jpg',
-  -- --     },
-  -- -- --     圖片縮放模式
-  -- --     resize = "NoScale",
-
-  -- -- --     圖片背景透明度
-  -- --     opacity = 0.4,
-  -- --   },
-  -- -- Terminal 背景顏色, 可以跟圖片一起混搭
-  --   {
-  --     source = { Color = 'rgba(30,30,30,0.7)'},
-  --     height = '100%',
-  --     width = '100%',
-  --   }
-  -- },
-
-  -- 窗口設置
-  window_background_opacity = 0.8, -- 透明度
-  -- macos_window_background_blur = 100, -- 模糊效果(macOS system)
-  -- win32_system_backdrop = 'Acrylic', -- Windows 專屬
-
-  -- 分頁欄放置在底部
-  tab_bar_at_bottom = true,
-  colors = {
-    -- selection_bg = '#FFFFFF', -- Select block background color
-    -- selection_fg = '#FFFFFF', -- Select block font color
-    tab_bar = {
-      active_tab = {
-        bg_color = '#2E2E2E',
-        fg_color = '#FFFFFF',
-      },
-      inactive_tab = {
-        bg_color = '#1E1E1E',
-        fg_color = '#B0B0B0',
-      },
+config.tab_bar_at_bottom = true  -- 分頁欄位設置在視窗底部
+config.colors = {
+  selection_bg = '#FFFFFF',
+  selection_fg = '#FFFFFF',
+  tab_bar = {
+    active_tab = {
+      bg_color = '#2E2E2E',
+      fg_color = '#FFFFFF',
+    },
+    inactive_tab = {
+      bg_color = '#1E1E1E',
+      fg_color = '#B0B0B0',
     },
   },
+}
 
-  -- 增強型分頁(支援圖標)
-  use_fancy_tab_bar = true,
-  -- 隱藏分頁欄位, 除非有多個分頁
-  enable_tab_bar = true,
-  -- 單一分頁時隱藏分頁欄位
-  hide_tab_bar_if_only_one_tab = true,
+config.use_fancy_tab_bar = true  -- 分頁支援圖標
+config.enable_tab_bar = true  -- 啟動分頁欄位
+config.hide_tab_bar_if_only_one_tab = true  -- 只有一個分頁時隱藏
+config.show_new_tab_button_in_tab_bar = false  -- 隱藏新增分頁按鈕
 
-  -- tab_bar opacity
-  window_frame = {
-    inactive_titlebar_bg = "none",
-    active_titlebar_bg = 'none',
-  },
-  --這是什麼我不知道,但挺漂亮的
-  window_background_gradient = {
-    colors = { "#000000" },
-  },
-  -- 隱藏 tab_bar 建立新分頁按鈕
-  show_new_tab_button_in_tab_bar = false,
-  -- Nightly Builds Only
-  -- 隱藏 tab_option 關閉按鈕
-  -- show_close_tab_button_in_tabs = false,
-
-  -- ================
-  -- SSH 連線設定
-  -- ================
-
-  -- 透過 LEADER + s 開啟 launch_menu
-  launch_menu = {
-    {
-      label = 'SSH felix_199',
+-- ==================
+-- Lunch menu
+-- ==================
+-- 透過 LEADER + s 開啟
+launch_menu = {
+  {
+    label = 'SSH felix_199',
     args = { 'ssh', 'fanice@felix_199'},
-    },
   },
+}
 
-
-
-  -- ================
-  -- 視窗分割
-  -- ================
-  keys = {
+-- ==================
+-- Key map
+-- ==================
+config.leader = {key = 'a', mods = 'CTRL'}  -- LEADER 鍵
+config.keys = {
     -- 視窗分割
     { key = '\\', mods = 'LEADER', action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' } },
     { key = '-', mods = 'LEADER', action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
@@ -175,61 +152,16 @@ return {
     -- { key = 'c', mods = 'LEADER', action = wezterm.action.CopyTo 'Clipboard' },
     -- 貼上
     -- { key = 'v', mods = 'LEADER', action = wezterm.action.PasteFrom 'Clipboard' },
-  },
+  }
 
-  -- 設定 LEADER 鍵為 CTRL+a，方便與 GNU Screen 或 tmux 相容
-  leader = { key = 'a', mods = 'CTRL'},
+-- ==================
+-- Other set
+-- ==================
+config.enable_kitty_graphics = true  -- 自動最大化視窗
+config.enable_scroll_bar = false  -- 啟用滑鼠滾動
+-- config.default_prog = {'powershell', '-NoLogo'}  -- 沒有 fish 的 windows
+config.default_prog = {'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'}  -- 有 fish 的 windows
+-- config.default_prog = {'/opt/homebrew/bin/fish'}  -- mac fish
+config.use_ime = true  -- 啟用輸入法支援(適合中文輸入)
 
-  -- 啟動時自動最大化視窗
-  -- enable_kitty_graphics = true,
-
-  -- 啟用滑鼠滾動
-  -- enable_scroll_bar = true,
-
-  -- =======================================================================================
-  -- 其他進階設定
-  -- =======================================================================================
-
-  -- 啟動時執行的指令
-  -- 可以設定啟動時自動切換到特定的 shell
-  -- ===Windows system===
-  -- # fish shell
-  -- default_prog = { 'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'},
-  -- # Starship
-  -- 在 PowerShell 設定檔中添加 `Invoke-Expression (&starship init powershell)`
-  -- PowerShell 設定檔位置. "\\192.168.10.4\Domain_User\felixhuang\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
-  -- 如果因為執行原則發生無法執行 ps1 檔案
-  -- 檢查當前執行原則(以下指令皆在 PowerShell 中使用)
-  -- command: `Get-ExecutionPolicy`,若輸出為Restricted則需要更改執行原則
-  -- 執行原則更改為RemoteSigned(需要管理員權限)
-  -- `-Scope CurrentUser`(修改範圍，當前使用者)
-  -- `-Force`(避免提示確認)
-  -- command: `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force`
-  -- ### 如果是在遠端不是在本地則需要執行這步
-  -- 生成自簽憑證
-  -- `New-SelfSignedCertificate -Subject "CN=PowerShell Profile Signing" -Type CodeSigningCert -CertStoreLocation Cert:\CurrentUser\My`
-  -- 簽署$PROFILE檔案
-  -- * 獲取剛生成的憑證
-  --   `$cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Subject -eq "CN=PowerShell Profile Signing" }`
-  -- * 簽署檔案
-  --   `Set-AuthenticodeSignature -FilePath "\\192.168.10.4\Domain_User\felixhuang\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -Certificate $cert`
-  -- * 憑證匯入到"受信任的根憑證頒發機構"
-  --   `Export-Certificate -Cert $cert -FilePath "C:\Users\felixhuang\profile_signing.cer"Import-Certificate -FilePath "C:\Users\felixhuang\profile_signing.cer" -CertStoreLocation Cert:\CurrentUser\Root`
-  -- * 測試
-  --   `. $PROFILE`
-  default_prog = { 'powershell', '-NoLogo'},
-  -- Mac system or Linux system
-  -- default_prog = { '/opt/homebrew/bin/fish' },
-
-  -- 跨平台鍵盤設置
-  use_ime = true, -- 啟用輸入法支援(適合中文輸入)
-
-
-  -- 視窗邊界調整
-  -- window_padding = {
-  --   left = 0,
-  --   right = 0,
-  --   top = 0,
-  --   bottom = 0,
-  -- },
-}
+return config
