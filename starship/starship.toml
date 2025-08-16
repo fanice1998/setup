@@ -1,80 +1,16 @@
-#Location: ~/.config/starship.toml
-#What_is_starship: https://starship.rs/
+#Location: ~/.config/starship/starship.toml
+# 設置單行提示格式，包含作業系統、使用者名稱、主機名稱、目錄和 Git 狀態
+format = "$os[$username](yellow)[@](cyan)[$hostname](green)[$directory](purple)[$git_branch$git_status](dimmed white)$character"
 
-format = """
-$git_branch\
-$git_status\
-$python\
-$nodejs\
-$c\
-$cpp\
-$rust\
-$java\
-$golang\
-$docker_context\
-$kubernetes
-$battery    $time
-$os [$username](yellow)[@](cyan)[$hostname](green) $directory$character
-"""
-
+# 字符設置，成功和失敗符號
 [character]
-success_symbol = '[➜](bold green)'
-error_symbol = '[➜](bold red)'
+success_symbol = "[➜](bold green)"
+error_symbol = "[➜](bold red)"
 
-[battery]
-full_symbol = "• "
-charging_symbol = "⇡ "
-discharging_symbol = "⇣ "
-
-[[battery.display]]
-threshold = 100
-
-[time]
-format = "[$time]($style)"
-disabled = false
-
-[username]
-show_always = true
-format = "[$user]($style)"
-
-[hostname]
-ssh_only = false
-format = "[$hostname]($style)"
-
-[c]
-format = "[$symbol($version )]($style)"
-symbol = " "
-
-[directory]
-read_only = " "
-
-[docker_context]
-symbol = " "
-format = "[$symbol$context]($style)"
-
-[elm]
-symbol = " "
-
-[golang]
-symbol = " "
-format = "[$symbol($version )]($style)"
-
-[hg_branch]
-symbol = " "
-
-[java]
-symbol = " "
-format = "[$symbol($version )]($style)"
-
-[memory_usage]
-symbol = " "
-
-[nodejs]
-format = "[$symbol($version )]($style)"
-symbol = " "
-
+# 作業系統符號
 [os]
 disabled = false
+style = "bold blue"
 
 [os.symbols]
 Alpine = " "
@@ -102,22 +38,79 @@ NetBSD = " "
 NixOS = " "
 OpenBSD = " "
 openSUSE = " "
-OracleLinux = " "
+OracleLinux = " "
 Pop = " "
 Raspbian = " "
 Redhat = " "
 RedHatEnterprise = " "
 Redox = " "
-Solus = "ﴱ "
+Solus = " "
 SUSE = " "
 Ubuntu = " "
 Unknown = " "
-Windows = " "
+Windows = " "
 
-[package]
-symbol = " "
-format = "[$symbol($version )]($style)"
+# 使用者名稱，始終顯示
+[username]
+show_always = true
+style_user = "yellow"
+style_root = "red"
+format = "[$user]($style)"
+
+# 主機名稱，始終顯示
+[hostname]
+ssh_only = false
+style = "green"
+format = "[$hostname]($style)"
+
+# 目錄設置，簡化顯示
+[directory]
+style = "purple"
+truncation_length = 3
+truncate_to_repo = true
+read_only = " "
+read_only_style = "red"
+
+# Git 分支和狀態，僅在 Git 儲存庫中顯示
+[git_branch]
+symbol = " "
+style = "dimmed white"
+format = "[$symbol$branch]($style)"
+
+[git_status]
+style = "dimmed white"
+format = "([$all_status$ahead_behind]($style))"
+
+# 禁用不必要的模組以保持簡潔
+[battery]
+disabled = true
+
+[time]
+disabled = true
+
+[c]
+disabled = true
+
+[cpp]
+disabled = true
+
+[rust]
+disabled = false
+
+[java]
+disabled = true
+
+[golang]
+disabled = false
+
+[nodejs]
+disabled = true
 
 [python]
-symbol = " "
-format = "[$symbol($version )]($style)"
+disabled = true
+
+[docker_context]
+disabled = false
+
+[kubernetes]
+disabled = true
