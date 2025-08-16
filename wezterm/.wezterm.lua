@@ -56,14 +56,14 @@ wezterm.on("update-right-status", function(window, pane)
   -- Color paletter for the backgrounds of each cell
   local colors = {
     'none',
-    '#52307C',
-    '#663a82',
-    '#7C5295',
-    '#B491C8',
+    '#485505',
+    '#6e8209',
+    '#9fbb12',
+    '#a3bb28',
   }
 
   -- Foreground color for the text across the fade
-  local text_fg = '#C0C0C)'
+  local text_fg = '#e1e1e1'
 
   -- The elements to be formatted
   local elements = {}
@@ -108,7 +108,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
   local foreground = '#FFFFFF'
   local edge_background = 'none'
   if tab.is_active then
-    background = '#5151A2'
+    background = '#B491C8'
     foreground = '#FFFFFF'
   end
   local edge_foreground = background
@@ -257,8 +257,8 @@ config.keys = {
 config.enable_kitty_graphics = true  -- 自動最大化視窗
 config.enable_scroll_bar = false  -- 啟用滑鼠滾動
 -- config.default_prog = {'powershell', '-NoLogo'}  -- 沒有 fish 的 windows
--- config.default_prog = {'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'}  -- 有 fish 的 windows
-config.default_prog = {'/opt/homebrew/bin/fish'}  -- mac fish
+config.default_prog = {'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'}  -- 有 fish 的 windows
+-- config.default_prog = {'/opt/homebrew/bin/fish'}  -- mac fish
 config.use_ime = true  -- 啟用輸入法支援(適合中文輸入)
 
 return config
