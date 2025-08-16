@@ -2,6 +2,103 @@ local wezterm = require('wezterm')
 local mux = wezterm.mux
 local config = wezterm.config_builder()
 
+wezterm.on("update-right-status", function(window, pane)
+  local cells = {}
+
+  -- Figure out the cwd and host of the current pane.
+  local cwd_uri = pane:get_current_working_dir()
+  if cwd_uri then
+    local cwd = ''
+    local hostname = ''
+
+    if type(cwd_uri) == 'userdata' then
+      -- New version support
+      cwd = cwd_uri.file_path
+      hostname = cwd_uri.host or wezterm.hostname()
+    else
+      -- Wezterm old version (20230712-072601-f4abf8fd or earlier)
+      cwd_uri = cwd_uri:sub(8)
+      local slash = cwd_uri:sub(8)
+      if slash then
+        hostname = cwd_uri:find '/'
+        cwd = cwd_uri:sub(slash);gsub('%%(%x%x)', function(hex)
+          return string.char(tonumber(hex, 16))
+        end)
+      end
+    end
+
+    -- Remove the domain name portion of the hostname
+    local dot = hostname:find '[.]'
+    if dot then
+      hostname = hostname:sub(1, dot -1)
+    end
+    if hostname == '' then
+      hostname = wezterm.hostname()
+    end
+
+    table.insert(cells, cwd)
+    table.insert(cells, hostname)
+  end
+
+  -- date/time
+  local date = wezterm.strftime '%b %-d %H:%M'
+  table.insert(cells, date)
+
+  -- An entry for each battery (typically 0 or 1 battery)
+  for _, b in ipairs(wezterm.battery_info()) do
+    table.insert(cells, string.format('%.0f%%', b.state_of_charge * 100))
+  end
+
+  -- The powerline < symbol
+  local LEFT_ARROW = utf8.char(0xe0b3)
+  local SOLID_LEFT_ARROW = utf8.char(0xe0b2)
+
+  -- Color paletter for the backgrounds of each cell
+  local colors = {
+    'none',
+    '#52307C',
+    '#663a82',
+    '#7C5295',
+    '#B491C8',
+  }
+
+  -- Foreground color for the text across the fade
+  local text_fg = '#C0C0C)'
+
+  -- The elements to be formatted
+  local elements = {}
+
+  -- How many cells have been formatted
+  local num_cells = 0
+
+  -- Translate a cell into elements
+  function push(text, is_last)
+    local cell_no = num_cells + 1
+    table.insert(elements, { Foreground = { Color = text_fg } })
+    table.insert(elements, { Background = { Color = colors[cell_no] } })
+    table.insert(elements, { Text = ' ' .. text .. ' '})
+    if not is_last then
+      table.insert(elements, { Foreground = { Color = colors[cell_no + 1] } })
+      table.insert(elements, { Text = SOLID_LEFT_ARROW })
+    end
+    num_cells = num_cells +1
+  end
+
+  while #cells > 0 do
+    local cell = table.remove(cells, 1)
+    push(cell, #cells == 0)
+  end
+
+  window:set_right_status(wezterm.format(elements))
+end)
+
+  -- 讓他有斜體跟底線(italic and underlined)
+--   window:set_right_status(wezterm.format {
+--     {Attribute = { Underline = 'Single' }},
+--     {Attribute = { Italic = true }},
+--     { Text = '我無奈 ' .. date },
+--   })
+-- end)
 
 -- Tab bar 標籤樣式更改
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
@@ -80,8 +177,8 @@ config.window_background_gradient = {
 
 config.tab_bar_at_bottom = true  -- 分頁欄位設置在視窗底部
 config.colors = {
-  selection_bg = '#FFFFFF',
-  selection_fg = '#FFFFFF',
+  selection_bg = '#2E2E2E',
+  selection_fg = '#9F9F9F',
   tab_bar = {
     active_tab = {
       bg_color = '#2E2E2E',
@@ -96,7 +193,7 @@ config.colors = {
 
 config.use_fancy_tab_bar = true  -- 分頁支援圖標
 config.enable_tab_bar = true  -- 啟動分頁欄位
-config.hide_tab_bar_if_only_one_tab = true  -- 只有一個分頁時隱藏
+-- config.hide_tab_bar_if_only_one_tab = true  -- 只有一個分頁時隱藏
 config.show_new_tab_button_in_tab_bar = false  -- 隱藏新增分頁按鈕
 
 -- ==================
@@ -160,8 +257,8 @@ config.keys = {
 config.enable_kitty_graphics = true  -- 自動最大化視窗
 config.enable_scroll_bar = false  -- 啟用滑鼠滾動
 -- config.default_prog = {'powershell', '-NoLogo'}  -- 沒有 fish 的 windows
-config.default_prog = {'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'}  -- 有 fish 的 windows
--- config.default_prog = {'/opt/homebrew/bin/fish'}  -- mac fish
+-- config.default_prog = {'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'}  -- 有 fish 的 windows
+config.default_prog = {'/opt/homebrew/bin/fish'}  -- mac fish
 config.use_ime = true  -- 啟用輸入法支援(適合中文輸入)
 
 return config
