@@ -1,6 +1,24 @@
-#Location: ~/.config/starship/starship.toml
+"$schema" = 'https://starship.rs/config-schema.json'
+
 # 設置單行提示格式，包含作業系統、使用者名稱、主機名稱、目錄和 Git 狀態
-format = "$os[$username](yellow)[@](cyan)[$hostname](green)[$directory](purple)[$git_branch$git_status](dimmed white)$character"
+# format = "$os[$username](yellow)[@](cyan)[$hostname](green)[$directory](purple)[$git_branch$git_status](dimmed white)$character"
+format = """
+[░▒▓](green)\
+$os\
+[$username](yellow)\
+[ ](green)\
+[$directory](purple)\
+[$git_branch$git_status]\
+(dimmed white)$character\
+"""
+
+# 使用者名稱，始終顯示
+[username]
+show_always = true
+style_user = "#696987"
+style_root = "red"
+format = "[$user]($style bg:green)"
+disable = false
 
 # 字符設置，成功和失敗符號
 [character]
@@ -10,7 +28,7 @@ error_symbol = "[➜](bold red)"
 # 作業系統符號
 [os]
 disabled = false
-style = "bold blue"
+style = "bold black bg:green"
 
 [os.symbols]
 Alpine = " "
@@ -49,13 +67,6 @@ SUSE = " "
 Ubuntu = " "
 Unknown = " "
 Windows = " "
-
-# 使用者名稱，始終顯示
-[username]
-show_always = true
-style_user = "yellow"
-style_root = "red"
-format = "[$user]($style)"
 
 # 主機名稱，始終顯示
 [hostname]
