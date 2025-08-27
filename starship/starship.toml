@@ -3,125 +3,185 @@
 # 設置單行提示格式，包含作業系統、使用者名稱、主機名稱、目錄和 Git 狀態
 # format = "$os[$username](yellow)[@](cyan)[$hostname](green)[$directory](purple)[$git_branch$git_status](dimmed white)$character"
 format = """
-[░▒▓](green)\
+[░▒▓](color_orange)\
 $os\
-[$username](yellow)\
-[ ](green)\
-[$directory](purple)\
-[$git_branch$git_status]\
-(dimmed white)$character\
+$username\
+[ ](bg:color_yellow fg:color_orange)\
+$directory\
+[ ](fg:color_yellow bg:color_aqua)\
+$git_branch\
+$git_status\
+[ ](fg:color_aqua bg:color_blue)\
+$c\
+$cpp\
+$rust\
+$golang\
+$nodejs\
+$php\
+$java\
+$kotlin\
+$haskell\
+$python\
+[ ](bg:color_bg3 fg:color_blue)\
+$docker_context\
+$conda\
+$pixi\
+[ ](bg:color_bg1 fg:color_bg3)\
+$time\
+[ ](fg:color_bg1)\
+$line_break$character
 """
 
-# 使用者名稱，始終顯示
-[username]
-show_always = true
-style_user = "#696987"
-style_root = "red"
-format = "[$user]($style bg:green)"
-disable = false
+fright_format = """
 
-# 字符設置，成功和失敗符號
-[character]
-success_symbol = "[➜](bold green)"
-error_symbol = "[➜](bold red)"
+"""
 
-# 作業系統符號
+palette = 'gruvbox_dark'
+
+[palettes.gruvbox_dark]
+color_fg0 = '#fbf1c7'
+color_bg1 = '#3c3836'
+color_bg3 = '#665c54'
+color_blue = '#458588'
+color_aqua = '#689d6a'
+color_green = '#98971a'
+color_orange = '#d65d0e'
+color_purple = '#b16286'
+color_red = '#cc241d'
+color_yellow = '#d79921'
+
 [os]
 disabled = false
-style = "bold black bg:green"
+style = "bg:color_orange fg:color_fg0"
 
 [os.symbols]
-Alpine = " "
-Amazon = " "
-Android = " "
-Arch = " "
-CentOS = " "
-Debian = " "
-DragonFly = " "
-Emscripten = " "
-EndeavourOS = " "
-Fedora = " "
-FreeBSD = " "
-Garuda = "﯑ "
-Gentoo = " "
-HardenedBSD = "ﲊ "
-Illumos = " "
-Linux = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-OpenBSD = " "
-openSUSE = " "
-OracleLinux = " "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-Redox = " "
-Solus = " "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Windows = " "
+Windows = "󰍲"
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+Arch = "󰣇"
+Artix = "󰣇"
+EndeavourOS = ""
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+Pop = ""
 
-# 主機名稱，始終顯示
-[hostname]
-ssh_only = false
-style = "green"
-format = "[$hostname]($style)"
+[username]
+show_always = true
+style_user = "bg:color_orange fg:color_fg0"
+style_root = "bg:color_orange fg:color_fg0"
+format = '[ $user ]($style)'
 
-# 目錄設置，簡化顯示
 [directory]
-style = "purple"
+style = "fg:color_fg0 bg:color_yellow"
+format = "[ $path ]($style)"
 truncation_length = 3
-truncate_to_repo = true
-read_only = " "
-read_only_style = "red"
+truncation_symbol = "…/"
 
-# Git 分支和狀態，僅在 Git 儲存庫中顯示
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
 [git_branch]
-symbol = " "
-style = "dimmed white"
-format = "[$symbol$branch]($style)"
+symbol = ""
+style = "bg:color_aqua"
+format = '[[ $symbol $branch ](fg:color_fg0 bg:color_aqua)]($style)'
 
 [git_status]
-style = "dimmed white"
-format = "([$all_status$ahead_behind]($style))"
-
-# 禁用不必要的模組以保持簡潔
-[battery]
-disabled = true
-
-[time]
-disabled = true
-
-[c]
-disabled = true
-
-[cpp]
-disabled = true
-
-[rust]
-disabled = false
-
-[java]
-disabled = true
-
-[golang]
-disabled = false
+style = "bg:color_aqua"
+format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)'
 
 [nodejs]
-disabled = true
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[c]
+symbol = " "
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[cpp]
+symbol = " "
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[php]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[java]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[kotlin]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
+
+[haskell]
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
 
 [python]
-disabled = true
+symbol = ""
+style = "bg:color_blue"
+format = '[[ $symbol( $version) ](fg:color_fg0 bg:color_blue)]($style)'
 
 [docker_context]
+symbol = ""
+style = "bg:color_bg3"
+format = '[[ $symbol( $context) ](fg:#83a598 bg:color_bg3)]($style)'
+
+[conda]
+style = "bg:color_bg3"
+format = '[[ $symbol( $environment) ](fg:#83a598 bg:color_bg3)]($style)'
+
+[pixi]
+style = "bg:color_bg3"
+format = '[[ $symbol( $version)( $environment) ](fg:color_fg0 bg:color_bg3)]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:color_bg1"
+format = '[[  $time ](fg:color_fg0 bg:color_bg1)]($style)'
+
+[line_break]
 disabled = false
 
-[kubernetes]
-disabled = true
+[character]
+disabled = false
+success_symbol = '[](bold fg:color_green)'
+error_symbol = '[](bold fg:color_red)'
+vimcmd_symbol = '[](bold fg:color_green)'
+vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
+vimcmd_replace_symbol = '[](bold fg:color_purple)'
+vimcmd_visual_symbol = '[](bold fg:color_yellow)'
