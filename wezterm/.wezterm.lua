@@ -55,15 +55,22 @@ wezterm.on("update-right-status", function(window, pane)
 
   -- Color paletter for the backgrounds of each cell
   local colors = {
-    'none',
-    '#485505',
-    '#6e8209',
-    '#9fbb12',
-    '#a3bb28',
+    '#d65d0e',
+    '#d79921',
+    '#689d6a',
+    '#458588',
+    '#cc241d',
+    '#3c3836',
+    '#665c54',
+    '#458588',
+    '#689d6a',
+    '#98971a',
+    '#d65d0e',
+    '#b16286',
   }
 
   -- Foreground color for the text across the fade
-  local text_fg = '#e1e1e1'
+  local text_fg = '#fbf1c7'
 
   -- The elements to be formatted
   local elements = {}
@@ -74,6 +81,11 @@ wezterm.on("update-right-status", function(window, pane)
   -- Translate a cell into elements
   function push(text, is_last)
     local cell_no = num_cells + 1
+    if num_cells == 0 then
+      table.insert(elements, { Foreground = { Color = colors[cell_no] } })
+      table.insert(elements, { Background = { Color = "none" } })
+      table.insert(elements, { Text = SOLID_LEFT_ARROW })
+    end
     table.insert(elements, { Foreground = { Color = text_fg } })
     table.insert(elements, { Background = { Color = colors[cell_no] } })
     table.insert(elements, { Text = ' ' .. text .. ' '})
@@ -159,7 +171,7 @@ config.window_decorations = 'RESIZE'  --"NONE", "RESIZE"
 --   }
 -- }
 
-config.window_background_opacity = 0.9  -- 透明度
+config.window_background_opacity = 0.85  -- 透明度
 -- config.macos_window_background_blur = 100  -- 模糊效果(macOS system)-- 圖片縮放樣式
 -- config.win32_system_backdrop = 'Acrylic'  -- Windows system
 
@@ -260,5 +272,7 @@ config.enable_scroll_bar = false  -- 啟用滑鼠滾動
 config.default_prog = {'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'}  -- 有 fish 的 windows
 -- config.default_prog = {'/opt/homebrew/bin/fish'}  -- mac fish
 config.use_ime = true  -- 啟用輸入法支援(適合中文輸入)
+-- 設定 SSH 後端為 'Pty'
+config.ssh_backend = 'LibSsh'
 
 return config
