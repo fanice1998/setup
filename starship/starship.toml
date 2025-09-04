@@ -32,7 +32,7 @@ $time\
 $line_break$character
 """
 
-fright_format = """
+right_format = """
 
 """
 
