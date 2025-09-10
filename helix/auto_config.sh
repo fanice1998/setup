@@ -49,7 +49,7 @@ download_file() {
 echo "正在檢查必要的套件管理工具..."
 check_command rustup "參考 Rust 官方網站安裝：https://www.rust-lang.org/tools/install"
 check_command cargo "通常隨 rustup 一起安裝"
-check_command go "參考 Go 官方網站安裝：https://golang.org/doc/install"
+check_command go "參考 Go 官方網站安裝：https://go.dev/dl/"
 check_command npm "參考 Node.js 官方網站安裝：https://nodejs.org/"
 check_command node "參考 Node.js 官方網站安裝：https://nodejs.org/"
 check_command pip "通常隨 Python 一起安裝"
