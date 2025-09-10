@@ -1,8 +1,33 @@
 ## config.fish
 
-# 初始化 nvm
-set -gx NVM_DIR "$HOME/.nvm"
-nvm use default >/dev/null 2>&1 config.fish
+# NVM
+#    自動檢測是否有 nvm 並安裝 fish-nvm
+#    若沒有 nvm 則不會安裝 fish-nvm
+
+# 如果需要使用到 bass 指令
+# 需要額外安裝 fisher, 安裝完成後再安裝 bass
+# curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+# fisher install edc/bass
+
+# 自動安裝 fisher
+if not type -q fisher
+    echo "Fisher 未安裝，正在嘗試安裝..."
+    if curl -sL https://git.io/fisher | source
+        echo "Fisher 安裝腳本已下載..."
+        if fisher install jorgebucaran/fisher >/dev/null 2>&1
+            echo "fisher 安裝成功"
+            echo "fisher version: "(fisher --version)
+        else
+            echo "fisher 安裝失敗"
+            exit 1
+        end
+    else
+        echo "fisher 安裝腳本下載失敗"
+        echo "請檢查網路"
+        exit 1
+    end
+end
+
 
 # 檢查檔案是否存在並匯入必要的環境變數
 if status is-interactive
@@ -32,6 +57,32 @@ function add_to_path
     end
 end
 
+# NVM 判斷以及初始化
+# 1. 檢查 nvm 是否可用
+# 2. nvm 不可用, 則查看是否已安裝 fish-nvm
+# 3. fish-nvm 未安裝, 確認 "$NVM_DIR" 是否存在, 不存在則跳過
+if set -q NVM_DIR; and not command -q nvm
+    if type -q fisher; and not fisher list | grep jorgebucaran/fish-nvm >/dev/null 2>&1
+        echo "已安裝 fisher 但未安裝 fish-nvm"
+        echo "\$NVM_DIR: "(set -q NVM_DIR && echo $NVM_DIR || echo "未設置")
+    else
+        echo "正在安裝 fish-nvm..."
+        if fisher install jorgebucaran/fish-nvm >/dev/null 2>&1
+            echo "fish-nvm 安裝成功"
+            if not command -q nvm
+                echo "WARRING: 找不到 nvm 指令或 NVM_DIR 異常"
+                echo "安裝 nvm：curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash"
+            else
+                echo "fish-nvm 已安裝, 可正常使用 nvm"
+            end
+        else
+            echo "fish-nvm 安裝失敗"
+            echo "請檢查網路連線或 ~/.config/fish 目錄權限"
+            exit 1
+        end
+    end
+end
+
 # Rust/Cargo 路徑
 if test -d "$HOME/.cargo/bin"
     add_to_path "$HOME/.cargo/bin"
@@ -40,20 +91,6 @@ end
 # Homebrew 路徑
 if test -x /opt/homebrew/bin/brew || test -x /usr/local/bin/brew
     eval (/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv)
-end
-
-# NVM 初始化
-if test -d "$HOME/.nvm"
-    set -gx NVM_DIR "$HOME/.nvm"
-    # 載入 nvm（避免每次執行都啟動 Bash）
-    if test -f "$NVM_DIR/nvm.sh"
-        # 初始化 nvm（僅在 interactive shell 中）
-        bass source "$NVM_DIR/nvm.sh"
-        # 載入預設 Node.js 版本
-        if nvm ls default >/dev/null 2>&1
-            nvm use default >/dev/null
-        end
-    end
 end
 
 # Go 路徑
@@ -89,4 +126,5 @@ end
 
 # 添加常用路徑（確保不重複）
 add_to_path /usr/local/bin /usr/bin /bin /usr/sbin /sbin
+source /home/fanice/.env_setup
 starship init fish | source
