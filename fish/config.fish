@@ -125,6 +125,5 @@ end
 
 # 添加常用路徑（確保不重複）
 add_to_path /usr/local/bin /usr/bin /bin /usr/sbin /sbin
-source /home/fanice/.env_setup
+source $HOME/.env_setup
 starship init fish | source
-source /Users/fanicehuang/.env_setup
