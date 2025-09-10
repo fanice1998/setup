@@ -23,11 +23,10 @@ if not type -q fisher
         end
     else
         echo "fisher 安裝腳本下載失敗"
-        echo "請檢查網路"
+        echo 請檢查網路
         exit 1
     end
 end
-
 
 # 檢查檔案是否存在並匯入必要的環境變數
 if status is-interactive
@@ -61,8 +60,8 @@ end
 # 1. 檢查 nvm 是否可用
 # 2. nvm 不可用, 則查看是否已安裝 fish-nvm
 # 3. fish-nvm 未安裝, 確認 "$NVM_DIR" 是否存在, 不存在則跳過
-if set -q NVM_DIR; and not command -q nvm
-    if type -q fisher; and not fisher list | grep jorgebucaran/fish-nvm >/dev/null 2>&1
+if set -q NVM_DIR; and not type -q nvm
+    if type -q fisher; and not fisher list | grep -E "jorgebucaran/fish-nvm|jorgebucaran/nvm.fish" >/dev/null 2>&1
         echo "已安裝 fisher 但未安裝 fish-nvm"
         echo "\$NVM_DIR: "(set -q NVM_DIR && echo $NVM_DIR || echo "未設置")
     else
@@ -128,3 +127,4 @@ end
 add_to_path /usr/local/bin /usr/bin /bin /usr/sbin /sbin
 source /home/fanice/.env_setup
 starship init fish | source
+source /Users/fanicehuang/.env_setup
