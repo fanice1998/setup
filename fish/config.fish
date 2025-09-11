@@ -3,6 +3,9 @@
 # NVM
 #    自動檢測是否有 nvm 並安裝 fish-nvm
 #    若沒有 nvm 則不會安裝 fish-nvm
+# Go
+#    自動檢測是否有安裝 go
+#    如果 go 資料夾存在, 會新增到系統到環境變數 PATH 中
 
 # 如果需要使用到 bass 指令
 # 需要額外安裝 fisher, 安裝完成後再安裝 bass
@@ -93,6 +96,9 @@ if test -x /opt/homebrew/bin/brew || test -x /usr/local/bin/brew
 end
 
 # Go 路徑
+if not command -v go >/dev/null; and test -d /usr/local/go/bin; and test -f /usr/local/go/bin/go
+    set -gx PATH "$PATH:/usr/local/go/bin"
+end
 if command -v go >/dev/null
     set -q GOPATH || set -gx GOPATH (go env GOPATH)
     add_to_path "$GOPATH/bin" (go env GOROOT)/bin
@@ -127,3 +133,4 @@ end
 add_to_path /usr/local/bin /usr/bin /bin /usr/sbin /sbin
 source $HOME/.env_setup
 starship init fish | source
+source /home/fanice/.env_setup
