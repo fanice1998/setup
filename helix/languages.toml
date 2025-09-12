@@ -17,7 +17,6 @@ args = ["--edition", "2021"]
 name = "go"
 auto-format = true
 language-servers = [ "gopls" ]
-formatter = { command = "gopls" }
 
 # Python
 [[language]]
