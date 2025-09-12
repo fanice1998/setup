@@ -71,7 +71,7 @@ if set -q NVM_DIR; and not type -q nvm
         echo "正在安裝 fish-nvm..."
         if fisher install jorgebucaran/fish-nvm >/dev/null 2>&1
             echo "fish-nvm 安裝成功"
-            if not command -q nvm
+            if not type -q nvm
                 echo "WARRING: 找不到 nvm 指令或 NVM_DIR 異常"
                 echo "安裝 nvm：curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash"
             else
