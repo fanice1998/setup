@@ -20,8 +20,8 @@ auto-info = true                 # 是否顯示資訊框
 bufferline = "multiple"          # ("always", "never", "multiple")當使用多個緩衝區時, 會在頂部顯示開啟的緩衝區名稱
 # 需要 25.07.01 才開始支援
 default-line-ending = "lf"       # "native", "lf", "crlf", "ff", "cr", "nel"
-trim-trailing-whitespace = true  # 寫入時是否自動刪除行尾前的空格
-end-of-line-diagnostics = "hint" # 行尾診斷
+trim-trailing-whitespace = false # 寫入時是否自動刪除行尾前的空格
+end-of-line-diagnostics = "disable" # 行尾診斷 "hint", "disable"
 auto-save = true                 #自動儲存
 path-completion = true           # 檔案路徑自動補全(絕對路徑, 相對路徑)
 
@@ -32,7 +32,7 @@ right = ["diagnostics", "selections", "position", "register", "file-encoding", "
 
 [editor.whitespace]
 # render: "all"(顯示), "none"(不顯示)
-render.space = "all"     # 空格
+render.space = "none"     # 空格
 render.tab = "all"       # TAB
 render.newline = "none"   # 換行 \n
 
