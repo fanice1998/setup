@@ -14,7 +14,7 @@ theme = "transparent"
 # 設定行號顯示
 line-number = "relative"         # "relative"(相對行號), "absolute"(絕對行號)
 mouse = false                    # 禁用滑鼠
-auto-completion = true           # 啟用自動完成的自動彈出功能(到底要彈出什麼...)
+auto-completion = true           # 啟用自動完成的自動彈出功能
 auto-format = true               # 儲存時自動格式化
 auto-info = true                 # 是否顯示資訊框
 bufferline = "multiple"          # ("always", "never", "multiple")當使用多個緩衝區時, 會在頂部顯示開啟的緩衝區名稱
@@ -43,7 +43,7 @@ enable = true
 
 [editor.indent-guides]
 render = true
-character = "┆" # Some characters that work well: "▏", "┆", "┊", "⸽"
+character = "▏" # Some characters that work well: "▏", "┆", "┊", "⸽"
 skip-levels = 1
 
 [editor.cursor-shape]
