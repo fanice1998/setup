@@ -77,13 +77,13 @@ wezterm.on("update-right-status", function(window, pane)
 
   -- How many cells have been formatted
   -- Get cells length
-  local num_cells = 0
-  local cell_no = #cells
+  local cell_length = #cells
+  local cell_no = cell_length + 1
 
   -- Translate a cell into elements
   function push(text, is_last)
     cell_no = cell_no - 1
-    if num_cells == 0 then
+    if cell_length == cell_no then
       table.insert(elements, { Foreground = { Color = colors[cell_no] } })
       table.insert(elements, { Background = { Color = "none" } })
       table.insert(elements, { Text = SOLID_LEFT_ARROW })
@@ -92,7 +92,7 @@ wezterm.on("update-right-status", function(window, pane)
     table.insert(elements, { Background = { Color = colors[cell_no] } })
     table.insert(elements, { Text = ' ' .. text .. ' '})
     if not is_last then
-      table.insert(elements, { Foreground = { Color = colors[cell_no-1] } })
+      table.insert(elements, { Foreground = { Color = colors[cell_no - 1] } })
       table.insert(elements, { Text = SOLID_LEFT_ARROW })
     end
   end
