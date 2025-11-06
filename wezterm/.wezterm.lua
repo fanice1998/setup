@@ -55,15 +55,15 @@ wezterm.on("update-right-status", function(window, pane)
 
   -- Color paletter for the backgrounds of each cell
   local colors = {
-    '#d65d0e',
-    '#d79921',
-    '#689d6a',
-    '#458588',
-    '#cc241d',
-    '#3c3836',
-    '#665c54',
-    '#458588',
-    '#689d6a',
+    '#8f2ccb',
+    '#7f27b5',
+    '#6f229e',
+    '#5f1d88',
+    '#501971',
+    '#40145a',
+    '#300f44',
+    '#200a2d',
+    '#100517',
     '#98971a',
     '#d65d0e',
     '#b16286',
@@ -76,11 +76,13 @@ wezterm.on("update-right-status", function(window, pane)
   local elements = {}
 
   -- How many cells have been formatted
+  -- Get cells length
   local num_cells = 0
+  local cell_no = #cells
 
   -- Translate a cell into elements
   function push(text, is_last)
-    local cell_no = num_cells + 1
+    cell_no = cell_no - 1
     if num_cells == 0 then
       table.insert(elements, { Foreground = { Color = colors[cell_no] } })
       table.insert(elements, { Background = { Color = "none" } })
@@ -90,14 +92,14 @@ wezterm.on("update-right-status", function(window, pane)
     table.insert(elements, { Background = { Color = colors[cell_no] } })
     table.insert(elements, { Text = ' ' .. text .. ' '})
     if not is_last then
-      table.insert(elements, { Foreground = { Color = colors[cell_no + 1] } })
+      table.insert(elements, { Foreground = { Color = colors[cell_no-1] } })
       table.insert(elements, { Text = SOLID_LEFT_ARROW })
     end
-    num_cells = num_cells +1
   end
 
   while #cells > 0 do
     local cell = table.remove(cells, 1)
+    -- local cell = table.remove(cells)
     push(cell, #cells == 0)
   end
 
@@ -116,12 +118,12 @@ end)
 local SOLID_LEFT_ARROW = wezterm.nerdfonts.ple_lower_right_triangle
 local SOLID_RIGHT_ARROW = wezterm.nerdfonts.ple_upper_left_triangle
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-  local background = '#d65d0e'
-  local foreground = '#FFFFFF'
+  local background = '#270c38'
+  local foreground = '#fbf1c7'
   local edge_background = 'none'
   if tab.is_active then
-    background = '#d79921'
-    foreground = '#FFFFFF'
+    background = '#631f8d'
+    foreground = '#fbf1c7'
   end
   local edge_foreground = background
   local title = "  " .. wezterm.truncate_right(tab.active_pane.title, max_width -1) .. "  "
@@ -269,8 +271,8 @@ config.keys = {
 config.enable_kitty_graphics = true  -- 自動最大化視窗
 config.enable_scroll_bar = false  -- 啟用滑鼠滾動
 -- config.default_prog = {'powershell', '-NoLogo'}  -- 沒有 fish 的 windows
-config.default_prog = {'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'}  -- 有 fish 的 windows
--- config.default_prog = {'/opt/homebrew/bin/fish'}  -- mac fish
+-- config.default_prog = {'C:\\Users\\felixhuang\\scoop\\apps\\msys2\\current\\usr\\bin\\fish.exe'}
+config.default_prog = {'/opt/homebrew/bin/fish'}  -- mac fish
 config.use_ime = true  -- 啟用輸入法支援(適合中文輸入)
 -- 設定 SSH 後端為 'Pty'
 config.ssh_backend = 'LibSsh'
